@@ -4,7 +4,10 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "@/lib/auth-client";
 import { Copy, Check, ExternalLink, LogOut, Plus } from "lucide-react";
-
+import { requireAuth } from "../lib/auth-utils";
+import CreateLinkForm from "../../components/CreateLinkForm";
+import LinksList from "../../components/LinksList";
+import UserMenu from "../../components/UserMenu";
 interface Link {
   id: string;
   originalUrl: string;
