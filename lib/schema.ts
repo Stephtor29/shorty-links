@@ -12,10 +12,11 @@ export const user = pgTable("user", {
 });
 
 // Tabla de sesiones (Better Auth - IMPORTANTE)
+// Tabla de sesiones (Better Auth - MEJOR OPCIÓN)
 export const session = pgTable("session", {
   id: text("id").primaryKey(),
   expiresAt: timestamp("expiresAt").notNull(),
-  token: text("token").notNull().unique(),
+  token: text("token").unique(), // ← Quita el .notNull()
   createdAt: timestamp("createdAt").notNull().defaultNow(),
   updatedAt: timestamp("updatedAt").notNull().defaultNow(),
   ipAddress: text("ipAddress"),
@@ -25,7 +26,7 @@ export const session = pgTable("session", {
     .references(() => user.id, { onDelete: "cascade" }),
 });
 
-// Tabla de cuentas (Better Auth)
+// Tabla de cuentas (Better Auth) - ACTUALIZADA
 export const account = pgTable("account", {
   id: text("id").primaryKey(),
   accountId: text("accountId").notNull(),
@@ -36,6 +37,7 @@ export const account = pgTable("account", {
   accessToken: text("accessToken"),
   refreshToken: text("refreshToken"),
   idToken: text("idToken"),
+  expiresAt: timestamp("expiresAt"), // ← AÑADE ESTE CAMPO
   accessTokenExpiresAt: timestamp("accessTokenExpiresAt"),
   refreshTokenExpiresAt: timestamp("refreshTokenExpiresAt"),
   scope: text("scope"),

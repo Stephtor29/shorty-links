@@ -24,12 +24,12 @@ export default function CreateLinkForm() {
         throw new Error("URL inválida");
       }
 
-      const response = await fetch("/api/links", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url }),
-      });
-
+    // En CreateLinkForm.tsx, línea 27
+const response = await fetch("/api/links", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ originalUrl: url }), // ← Cambia "url" por "originalUrl"
+});
       const data = await response.json();
 
       if (!response.ok) {

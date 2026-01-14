@@ -3,17 +3,17 @@ import { useEffect, useState } from "react";
 import { Copy, ExternalLink, BarChart3, Check } from "lucide-react";
 
 interface Link {
-  id: number;
+  id: string; // ← Cambiar de number a string
   originalUrl: string;
   shortCode: string;
   clicks: number;
-  createdAt: string;
+  createdAt: Date | string; // ← Asegurar que acepta Date o string
 }
 
 export default function LinksList() {
   const [links, setLinks] = useState<Link[]>([]);
   const [loading, setLoading] = useState(true);
-  const [copiedId, setCopiedId] = useState<number | null>(null);
+  const [copiedId, setCopiedId] = useState<string | null>(null); // ← Cambiar de number a string
 
   useEffect(() => {
     fetchLinks();
@@ -22,7 +22,11 @@ export default function LinksList() {
   const fetchLinks = async () => {
     try {
       const response = await fetch("/api/links");
+      if (!response.ok) {
+        throw new Error('Error al obtener links');
+      }
       const data = await response.json();
+      console.log("Links recibidos:", data); // ← Debug: ver qué llega
       setLinks(data);
     } catch (error) {
       console.error("Error al cargar links:", error);
@@ -31,19 +35,21 @@ export default function LinksList() {
     }
   };
 
-  const copyToClipboard = async (shortCode: string, id: number) => {
-    const shortUrl = `${window.location.origin}/${shortCode}`;
-    try {
-      await navigator.clipboard.writeText(shortUrl);
-      setCopiedId(id);
-      setTimeout(() => setCopiedId(null), 2000);
-    } catch (err) {
-      console.error("Error al copiar:", err);
-    }
-  };
+ const copyToClipboard = async (shortCode: string, id: string) => {
+  const shortUrl = `${window.location.origin}/${shortCode}`;
+  try {
+    await navigator.clipboard.writeText(shortUrl);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 2000);
+  } catch (err) {
+    console.error("Error al copiar:", err);
+  }
+};
 
   if (loading) {
-    return <div className="flex justify-center py-12"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div></div>;
+    return <div className="flex justify-center py-12">
+      <div className="animate-spin rounded-full h-8 w-8 
+      border-b-2 border-indigo-600"></div></div>;
   }
 
   if (links.length === 0) {
