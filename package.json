@@ -13,7 +13,6 @@
   "dependencies": {
     "better-auth": "^0.8.8",
     "drizzle-orm": "^0.29.5",
-    "lucide-react": "^0.344.0",
     "nanoid": "^5.1.6",
     "next": "^16.1.1",
     "postgres": "^3.4.8",
