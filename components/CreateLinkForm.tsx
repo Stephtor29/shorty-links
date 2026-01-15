@@ -24,12 +24,12 @@ export default function CreateLinkForm() {
         throw new Error("URL inválida");
       }
 
-    // En CreateLinkForm.tsx, línea 27
-const response = await fetch("/api/links", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ originalUrl: url }), // ← Cambia "url" por "originalUrl"
-});
+      const response = await fetch("/api/links", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ originalUrl: url }),
+      });
+
       const data = await response.json();
 
       if (!response.ok) {
@@ -77,7 +77,7 @@ const response = await fetch("/api/links", {
             onChange={(e) => setUrl(e.target.value)}
             placeholder="https://ejemplo.com/tu-enlace-largo"
             required
-            className="w-full pl-10 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+            className="w-full pl-10 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-gray-900"
           />
         </div>
       </div>
